@@ -12,7 +12,7 @@ let CannedHamLord = function() {
 		Q: 12,
 		K: 13,
 		A: 14
-	
+	}
 	
 	_self.hamSuits = ['C', 'S', 'D', 'H'];
 
