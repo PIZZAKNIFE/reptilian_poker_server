@@ -1,0 +1,24 @@
+{
+  "name": "reptilian_poker_server",
+  "version": "1.0.0",
+  "description": "The Hollow Moon in which the Reptilians Live",
+  "main": "index.js",
+  "dependencies": {
+    "couch-db": "^1.1.3",
+    "hapi": "^16.1.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/PIZZAKNIFE/reptilian_poker_server.git"
+  },
+  "author": "brandt.solovij@gmail.com",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/PIZZAKNIFE/reptilian_poker_server/issues"
+  },
+  "homepage": "https://github.com/PIZZAKNIFE/reptilian_poker_server#readme"
+}
