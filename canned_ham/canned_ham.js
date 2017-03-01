@@ -23,6 +23,11 @@ let CannedHamLord = function() {
 	
 	let hamLineEval = function(line) {
 		let playLine = line.split(' ');
+		let hands = [ 
+				playLine.slice(0,4),
+				playLine.slice(5,9)
+		];
+				
 		let playSet = playLine.map(elem) {
 			let _pair = elem.split('');
 			if (_pair.length < 2) {
@@ -33,7 +38,11 @@ let CannedHamLord = function() {
 			}
 			return _pair;
 		}
-		return playSet.includes(false)? false : playSet;
+		if (playSet.includes(false)) {
+			return 'Corrupt Ham';
+		} else {
+			
+		}
 	}
 
 	_self.fetchCannedHam(cannedPath, options = {}) {
