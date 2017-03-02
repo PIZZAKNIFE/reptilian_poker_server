@@ -6,7 +6,11 @@ const Hapi = require('hapi');
 
 const server = new Hapi.Server();
 
-require('./canned_ham');
+
+let Hamler = require('./canned_ham').getInstance();
+
+
+console.log(Hamler);
 
 server.connection({ port: 3000, host: 'localhost' });
 
@@ -18,7 +22,7 @@ server.route({
     method: 'GET',
     path: '/',
     handler: function(request, reply) {
-	reply('no ham for you');
+	reply(Hamler.fetchCannedHam('annalsOfTheOverlords/canned_ham.txt', { splitWith: '\n' } ));
     }
 })
 
