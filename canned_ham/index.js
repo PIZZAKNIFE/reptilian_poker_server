@@ -56,33 +56,30 @@ let CannedHamLord = function () {
             playSet.slice(playSet.length / 2, playSet.length)
         ]
 
-        // determine the best outcome for each hand.
+        hands = hands.map((elem) => {
+            return determinePairsAndSuits(elem);
+        });
 
-        let results = [
-            determineHandBest(hands[0]),
-            determineHandBest(hands[1])
-        ];
-
-        return playSet;
+        return hands;
     }
 
 
     let determinePairsAndSuits = (hand) => {
         var processedCards = {};
         hand.forEach(function (card) {
-            console.log(card);
+
             if (Object.keys(processedCards).includes(card[0])) {
                 processedCards[card[0]].occurance += 1;
-                if ( typeof processedCards[card[0]].suits[card[1]] === 'undefined') {
-                    processedCards[card[0]].suits[card[1]] = { count : 1 };
+                if (typeof processedCards[card[0]].suits[card[1]] === 'undefined') {
+                    processedCards[card[0]].suits[card[1]] = {count: 1};
                 } else {
                     processedCards[card[0]].suits[card[1]].count += 1;
                 }
             } else {
-                processedCards[card[0]] = { occurance: 1, suits : {} } ;
-                processedCards[card[0]].suits[card[1]] = { count : 1 };
+                processedCards[card[0]] = {occurance: 1, suits: {}};
+                processedCards[card[0]].suits[card[1]] = {count: 1};
             }
-        }
+        });
         return processedCards;
     }
 
@@ -92,37 +89,62 @@ let CannedHamLord = function () {
 
     //Determine the Type of Hand
 
-    let determineHandType = (hand) => {
+    let determinePairs = (hand) => {
         // hand == { cardNumber : { occurance : <int>, suits: { cardSuit : <int> } } }
         let pairs = Object.keys(hand).filter((curVal) => {
-           return curVal.occurance >= 2;
+            return curVal.occurance >= 2;
         });
 
     }
 
     let examineForFlush = (hand) => {
         Object.keys(hand).forEach((card) => {
-            if (Array.from(new Set(Object.keys(hand[card].suits))).length > 1) { return false ;}
+            if (Array.from(new Set(Object.keys(hand[card].suits))).length > 1) {
+                return false;
+            }
         });
-        return true;
+        // if we made it here, determine the highest facevalue of the card
+
+        return Object.keys(hand).reduce((acc, nxt) => {
+            acc = hamFaces.includes(acc) ? hamFaces[acc] : acc;
+            nxt = hamFaces.includes(nxt) ? hamFaces[nxt] : nxt;
+            return Math.max(acc, nxt);
+        });
     };
 
     let examineForStraight = (hand) => {
         let finalValue = Object.keys(hand).reduce((acc, nxt, _ary) => {
-           if ((acc +1) == parseInt(nxt,10)) { return parseInt(nxt, 10);}
-           else {
-               return false;
-           }
+            acc = hamFaces.includes(acc) ? hamFaces[acc] : acc;
+            nxt = hamFaces.includes(nxt) ? hamFaces[nxt] : nxt;
+            if ((acc + 1) == parseInt(nxt, 10)) {
+                return parseInt(nxt, 10);
+            }
+            else {
+                return false;
+            }
         });
     }
 
+    let determineHand = (hand) => {
+        hand = validateAndValueHam(hand);
+        hand = determineHand(hand);
+        let hasFlush = examineForFlush(hand);
+        let hasStraight = examineForStraight(hand)
+    };
 
 
     // this is the publically exposed canned hamm process
     // @param [String] cannedPath is the location of the play record to parse
     // @param [Object<optional>] options contains information on how to parse the play record file
     let fetchCannedHam = (cannedPath, options = {}) => {
+        let gameLines = hamContents(cannedPath, options);
+        let playerOne = 0;
+        let playerTwo = 0;
 
+        gameLines.forEach((line) => {
+            let playerHands = determineHand(line);
+            console.log(playerHands);
+        });
     }
 }
 

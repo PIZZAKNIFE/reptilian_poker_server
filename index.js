@@ -4,6 +4,6 @@ const fs = require('fs');
 const path = require('path');
 
 require('server.js');
-//require('database.js');
+require('database.js');
 
 

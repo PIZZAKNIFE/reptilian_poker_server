@@ -6,6 +6,8 @@ const Hapi = require('hapi');
 
 const server = new Hapi.Server();
 
+require('./canned_ham');
+
 server.connection({ port: 3000, host: 'localhost' });
 
 // ROUTES
@@ -16,7 +18,7 @@ server.route({
     method: 'GET',
     path: '/',
     handler: function(request, reply) {
-	reply('huge farts');
+	reply('no ham for you');
     }
 })
 
