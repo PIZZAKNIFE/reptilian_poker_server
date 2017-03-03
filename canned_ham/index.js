@@ -103,7 +103,23 @@ let CannedHamLord = function () {
     let determinePairs = (hand) => {
         // hand == { cardNumber : { occurance : <int>, suits: { cardSuit : <int> } } }
         return Object.keys(hand).filter((curVal) => {
-            return curVal.occurance >= 2;
+            return hand[curVal].occurance === 2;
+        });
+
+    }
+
+    let determineThree = (hand) => {
+        // hand == { cardNumber : { occurance : <int>, suits: { cardSuit : <int> } } }
+        return Object.keys(hand).filter((curVal) => {
+            return hand[curVal].occurance === 3;
+        });
+
+    }
+
+    let determineFour = (hand) => {
+        // hand == { cardNumber : { occurance : <int>, suits: { cardSuit : <int> } } }
+        return Object.keys(hand).filter((curVal) => {
+            return hand[curVal].occurance === 4;
         });
 
     }
@@ -142,6 +158,8 @@ let CannedHamLord = function () {
         let hasFlush = examineForFlush(composedHand);
         let hasStraight = examineForStraight(composedHand);
         let hasPairs = determinePairs(composedHand);
+        let hasTripples = determineThree(composedHand);
+        let hasFour = determineFour(composedHand);
         // if (hasFlush) { console.log('flush found', composedHand);}
         // if (hasStraight) { console.log('straight found', composedHand);}
         // if (hasFlush && hasStraight) { console.log('Straight Flush', composedHand);}
@@ -149,9 +167,15 @@ let CannedHamLord = function () {
             composedHand,
             flush: hasFlush,
             straight: hasStraight,
-            pairs: hasPairs
+            pairs: hasPairs,
+            triples: hasTripples,
+            fourFace: hasFour
         }
     };
+
+    let determineWinner = (hand) => {
+
+    }
 
     // this is the publically exposed canned hamm process
     // @param [String] cannedPath is the location of the play record to parse
@@ -167,8 +191,14 @@ let CannedHamLord = function () {
             gameHands = gameHands.map((hand) =>{
                 return determineHandValue(hand);
             });
+            let playerOneHand = gameHands[0];
+            let playerTwoHand =  gameHands[1];
+
+            console.log(gameHands);
+
+
         });
-        // return (JSON.stringify(gameHands));
+
     }
 }
 
