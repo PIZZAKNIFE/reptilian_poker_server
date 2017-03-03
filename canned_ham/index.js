@@ -69,9 +69,8 @@ let CannedHamLord = function () {
         }
         let hands = [
             playSet.slice(0, playSet.length / 2),
-            playSet.slice(playSet.length / 2, playSet.length)
+            playSet.slice(playSet.length / 2)
         ];
-
         return hands;
     }
 
@@ -111,17 +110,36 @@ let CannedHamLord = function () {
 
     let examineForFlush = (hand) => {
         let isFlush = true;
-        Object.keys(hand).forEach((card) => {
-            if (Array.from(new Set(Object.keys(hand[card].suits))).length > 1) {
-                isFlush = false;
+        console.log('Hand length:' , Object.keys(hand).length);
+        console.log('Hand', hand);
+        let suitsInHand = Object.keys(hand).reduce((acc, nxtCard, self) => {
+            if (!acc) {
+                return acc = false;
+            }
+            let suitChain = Array.from(new Set(Object.keys(hand[acc].suits)));
+            if (suitChain.length > 1) {
+                return  acc = false;
+            } else {
+                return  acc = suitChain.pop());
             }
         });
-        if (!isFlush) { return false;}
-        return Object.keys(hand).reduce((acc, nxt) => {
-            acc = Object.keys(hamFaces).includes(acc) ? hamFaces[acc] : acc;
-            nxt = Object.keys(hamFaces).includes(nxt) ? hamFaces[nxt] : nxt;
-            return Math.max(acc, nxt);
-        });
+        console.log(suitsInHand);
+            // console.log('card', card);
+            // console.log("suits", Object.keys(hand[card].suits));
+            // console.log("suits", Array.from(new Set(Object.keys(hand[card].suits))));
+            // if (Array.from(new Set(Object.keys(hand[card].suits))).length > 1) {
+        //         isFlush = false;
+        //         console.log(Object.keys(hand[card].suits));
+        //     }
+        // });
+        // if (!isFlush) { return false;}
+        // else {
+        //     return Object.keys(hand).reduce((acc, nxt) => {
+        //         acc = Object.keys(hamFaces).includes(acc) ? hamFaces[acc] : acc;
+        //         nxt = Object.keys(hamFaces).includes(nxt) ? hamFaces[nxt] : nxt;
+        //         return Math.max(acc, nxt);
+        //     });
+        // }
     };
 
     let examineForStraight = (hand) => {
@@ -138,12 +156,12 @@ let CannedHamLord = function () {
     }
 
     let determineHandValue = (hand) => {
-        hand = determineHandComposure(hand);
-        let hasFlush = examineForFlush(hand);
-        let hasStraight = examineForStraight(hand);
-        let hasPairs = determinePairs(hand);
+        let composedHand = determineHandComposure(hand);
+        let hasFlush = examineForFlush(composedHand);
+        let hasStraight = examineForStraight(composedHand);
+        let hasPairs = determinePairs(composedHand);
         return {
-            hand,
+            composedHand,
             flush: hasFlush,
             straight: hasStraight,
             pairs: hasPairs
@@ -165,9 +183,6 @@ let CannedHamLord = function () {
             gameHands = gameHands.map((hand) =>{
                 return determineHandValue(hand);
             });
-
-            console.log(gameHands);
-            console.log('_______');
         });
         // return (JSON.stringify(gameHands));
     }
