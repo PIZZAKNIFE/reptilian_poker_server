@@ -23,6 +23,7 @@ server.route({
     path: '/',
     handler: function(request, reply) {
 	reply(Hamler.fetchCannedHam('annalsOfTheOverlords/canned_ham.txt', { splitWith: '\n' } ));
+	//reply(Hamler.fetchCannedHam('annalsOfTheOverlords/test.txt', { splitWith: '\n' } ));
     }
 })
 
